@@ -1,7 +1,7 @@
 /*gere le bouton musique on off*/
 var audio = document.getElementById("audio");
 var playPauseBTN = document.getElementById("playPauseBTN");
-var count = 1;
+var count = 0;
 audioElement.play();
 
 
