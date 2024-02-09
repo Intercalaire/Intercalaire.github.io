@@ -67,7 +67,7 @@ button {
     height: 115px;
     max-height: 115px;
     text-align: center;
-    background: url("../img/banniere.png");
+    background: url("../img/bannierefinale.png");
     background-repeat: no-repeat;
     /*image du bandeau*/
     border: rgba(15, 15, 13, 0.6);
@@ -128,7 +128,7 @@ button {
     /* ou la boite va plus être orienter  */
     height: 400px;
     /* dimension pour la longueur de la boite 2 */
-    background-image: url("../img/ppytb.PNG");
+    background-image: url("../img/ppytb.png");
     /* met une image dans une boite ( image local )  */
 }
 
