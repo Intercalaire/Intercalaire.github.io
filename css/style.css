@@ -58,21 +58,44 @@ button {
     left: 64.979vw;
 }
 
-/*bandeau en haut de la page */
-#bandeau {
+/*bandeau en haut de la page     display: flex;
+    justify-content: space-between;
+    padding-top: 50px;
+    height: 115px;
+    max-height: 115px;
+    text-align: center;
+    background: url("../img/banniere.png");
+    background-repeat: no-repeat;
+    image du bandeau
+    border: rgba(15, 15, 13, 0.6);
+    text-rendering: optimizeLegibility;
+    position: absolute;
+        /*bordure du bandeau
+        /*box-shadow: -10px 5px 10px rgb(126, 54, 54);  ombre du bandeau
+}*/
+#hautbanniere {
+    display: flex;
+    background: url("../img/hautbanniere.png");
+    height: 100%;
+    width: 100%;
+    background-repeat: no-repeat;
+    border: rgba(15, 15, 13, 0.6);
+    position: absolute;
+    text-rendering: optimizeLegibility;
+}
+
+#bannierecote {
     display: flex;
     justify-content: space-between;
     padding-top: 50px;
     height: 115px;
     max-height: 115px;
     text-align: center;
-    background: url("../img/bannierefinale.png");
-    background-repeat: no-repeat;
-    /*image du bandeau*/
+    background: url("../img/bannierecote.png");
     border: rgba(15, 15, 13, 0.6);
-    text-rendering: optimizeLegibility
-        /*bordure du bandeau*/
-        /*box-shadow: -10px 5px 10px rgb(126, 54, 54);  ombre du bandeau*/
+    text-rendering: optimizeLegibility;
+    position: absolute;
+    border: rgba(15, 15, 13, 0.6);
 }
 
 
