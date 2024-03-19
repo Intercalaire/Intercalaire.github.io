@@ -1,191 +1,130 @@
 <!DOCTYPE html>
-<html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <title>LiveChat Image - Zefren</title>
-  </head>
+<html lang="fr" style="--vh: 717px; font-size: 71,7px;">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-  <body onload="initializePage()">
-    <h1 id="texteAvatar" class="avatarTexte"></h1>
-    <img
-      id="avatar"
-      class="avatarImg"
-      width="150"
-      height="150"
-      src="https://cdn.discordapp.com/attachments/1076908168132694048/1077592007175831562/vide.png"
-    />
-    <h1 id="texteIm" class="contentTexte"></h1>
-    <img
-      id="message"
-      class="contentImg"
-      width="1920"
-      height="1080"
-      src="https://cdn.discordapp.com/attachments/1076908168132694048/1077592007175831562/vide.png"
-    />
-    <video muted id="video" src=""></video>
-    <audio id="audioParent" hidden>
-      <source id="audioChild" src="" type="audio/mpeg" />
-    </audio>
-    <input id="btnMute" type="button" value="Unmute" style="display: none" />
+<head>
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+    content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no  viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="format-detection" content="telephone=no" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <link rel="stylesheet" href="css\style.css">
+  <title>Intercalaire</title>
+  <style>
+    input {
+      font-size: 16 px;
+    }
 
-    <script>
-      const video = document.getElementById("video");
-      const intervalDuration = 7000;
-      let urlRecu = "";
+    input:focus {
+      font-size: 16px;
+    }
+  </style>
+  <!-- le logo en haut a gauche de la page -->
+  <link rel="icon" href="" type="image/x-icon" />
+  <!-- ne pas toucher -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <!-- ne pas toucher -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
 
-      const audioParent = document.getElementById("audioParent");
-      const audioSrc = document.getElementById("audioChild");
-      const btn = document.getElementById("btnMute");
+  <!-- ne pas toucher -->
+  <link rel="stylesheet" href="css/mdb.min.css" />
+</head>
+<!-- bandeau en haut de la page avec tous dedans -->
 
-      function initializePage() {
-        setInterval(fetchDataFromDatabase, intervalDuration);
-        btn.addEventListener("click", toggleMute);
-      }
+<body class="page">
 
-      function fetchDataFromDatabase() {
-        const ajax = new XMLHttpRequest();
-        const method = "GET";
-        const url = "getValue.php";
-        const asynchronous = true;
-
-        ajax.open(method, url, asynchronous);
-        ajax.send();
-
-        ajax.onload = function () {
-          const messageRecu = this.responseText.split("$");
-          if (!messageRecu[3] && !messageRecu[5] || urlRecu != "") {
-            return;
-          }
-
-          if (messageRecu[3] !== urlRecu && !messageRecu[3].includes(".mp4") ||
-            (messageRecu[3] === urlRecu && messageRecu[4] !== "")) {
-            urlRecu = messageRecu[3];
-            updateUI(messageRecu);
-          }
-
-          if (messageRecu[3] !== urlRecu && messageRecu[3].includes(".mp4")) {
-            urlRecu = messageRecu[3];
-            updateVideoUI(messageRecu);
-          }
-
-          if (messageRecu[5] !== audioSrc.src) {
-            updateAudio(messageRecu[5]);
-          }
-        };
-      }
-
-      function updateUI(messageRecu) {
-        const [time, width, height, , texte, , newAvatar, newUsername] =
-          messageRecu;
-        setTimeout(() => {
-          clearUI();
-        }, time);
-
-        const img = document.getElementById("message");
-        img.width = width;
-        img.height = height;
-        img.src = urlRecu;
-
-        const imgAvatar = document.getElementById("avatar");
-        imgAvatar.src = newAvatar;
-
-        const textAvatar = document.getElementById("texteAvatar");
-        textAvatar.textContent = newUsername;
-
-        const textIm = document.getElementById("texteIm");
-        textIm.textContent = texte;
-      }
-
-      function updateVideoUI(messageRecu) {
-        time = messageRecu[0];
-
-        setTimeout(() => {
-          clearUI();
-        }, time);
-
-        video.width = messageRecu[1];
-        video.height = messageRecu[2];
-
-        const imgAvatar = document.getElementById("avatar");
-        imgAvatar.src = messageRecu[6];
-
-        document.getElementById("texteAvatar").textContent = messageRecu[7];
-
-        video.src = urlRecu;
-
-        setTimeout(() => {
-          document.getElementById("btnMute").style.display = "block";
-          clickButton();
-          video.load();
-          video.play();
-        }, 1000);
-
-        document.getElementById("texteIm").textContent = messageRecu[4];
-      }
-
-      function clearUI() {
-		urlRecu = "";
-        video.src = "";
-        const img = document.getElementById("message");
-        img.src =
-          "https://cdn.discordapp.com/attachments/1076908168132694048/1077592007175831562/vide.png";
-        img.width = 1920;
-        img.height = 1080;
-
-        document.getElementById("texteAvatar").textContent = "";
-        document.getElementById("avatar").src =
-          "https://cdn.discordapp.com/attachments/1076908168132694048/1077592007175831562/vide.png";
-
-        document.getElementById("texteIm").textContent = "";
-        btn.style.display = "none";
-
-        audioParent.pause();
-        audioSrc.src = "";
-
-        const ajax = new XMLHttpRequest();
-        const method = "GET";
-        const url = "deleteValue.php";
-        const asynchronous = true;
-
-        ajax.open(method, url, asynchronous);
-        ajax.send();
-
-        ajax.onload = function () {
-          console.log("suppression");
-        };
-      }
-
-      function updateAudio(newAudioSrc) {
-        audioSrc.src = newAudioSrc;
-        audioSrc.volume = 0.1;
-        audioParent.load();
-        audioParent.play();
-
-        setTimeout(() => {
-          btn.style.display = "block";
-          toggleMute();
-        }, 1000);
-      }
-
-      function toggleMute() {
-        btn.style.display = "none";
-        audioSrc.muted = false;
-        audioSrc.volume = 0.1;
-        audioParent.play();
-      }
-
-      btn.addEventListener("click", function () {
-        document.getElementById("btnMute").style.display = "none";
-        video.muted = false;
-        video.volume = 0.1;
-        video.play();
-      });
-
-      function clickButton() {
-        btn.click();
-      }
-    </script>
+  <body class="map">
+    <div class="fixed-top" id="bannierecote" alt="">
+      <div class="fixed-top" id="hautbanniere" alt=""></div>
+      <header>
+        <div align="fixed-top" class="musiquecentrale" display: none>
+          <figure>
+            <audio id="audio" autoplay loop>
+              <source src="./audio/Disbelief Crusader (read the description for explainations).mp3" type="audio/mpeg">
+            </audio>
+            <button id="playPauseBTN" onclick="playPause()" onclick="myFunction()"></button>
+          </figure>
+          <script src="js/custom.js"></script>
+        </div>
+      </header>
+    </div>
+    </div>
   </body>
+</body>
+<!-- Start your project here-->
+<!-- les 3 blocs du centre-->
+<div class="SU">
+  <div class="card">
+    <div class="card-body">
+      <div id="first" class="bloc"> <a id="discordbot"
+          href="https://discord.com/api/oauth2/authorize?client_id=971429670446825482&permissions=8&scope=bot">
+          superultra mega cool bot</a> </div>
+      <div id="second" class="bloc"> <a id="youtube" href="https://www.youtube.com/channel/UCi_BWfKTvzKL_GDr9FSXKAw">
+          Intercalaire ytb</a> </div>
+    </div>
+    </body>
+
+
+
+
+
+
+    <!-- End your project here-->
+    <!-- Footer -->
+    <footer class="text-center text-lg-start bg-light text-muted">
+      <!-- Section: Social media -->
+      <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+        <!-- Left -->
+        <div class="me-5 d-none d-lg-block">
+          <span></span>
+        </div>
+        <!-- Left -->
+
+        <!-- gere les logo en bah a droite -->
+        <div>
+          <a href="https://discord.gg/anAPrfAEBP" data-mdb-toggle="tooltip" title="intercalairee"
+            class="me-4 text-reset">
+            <i class="fab fa-discord"></i>
+          </a>
+        </div>
+        <!-- Right -->
+      </section>
+      <!-- Section: Social media -->
+
+      <!-- Section: Links  -->
+      <section class="">
+        <div class="container text-center text-md-start mt-5">
+          <!-- Grid row -->
+          <div class="row mt-3">
+            <!-- Grid column -->
+            <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+            </div>
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+              <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                <!-- Links -->
+              </div>
+              <!-- Grid column -->
+            </div>
+            <!-- Grid row -->
+          </div>
+      </section>
+      <!-- Section: Links  -->
+
+      <!-- Copyright -->
+      <div class="text-center p-4" style="background-color: rgba(131, 119, 119, 0.05);">
+        © 2024 Copyright:
+        <a class="text-reset fw-bold" href="#">Intercalaire.me</a>
+      </div>
+      <!-- Copyright -->
+    </footer>
+    <!-- Footer -->
+    <!-- ne pas toucher -->
+    <script type="text/javascript" src="js/mdb.min.js"></script>
+    <!-- ne pas toucher -->
+    <script type="text/javascript"></script>
+    </body>
+
 </html>
