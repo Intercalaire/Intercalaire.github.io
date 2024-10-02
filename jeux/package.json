@@ -1,0 +1,12 @@
+{
+	"name": "jeu-de-tir",
+	"version": "1.0.0",
+	"description": "Jeu de tir multijoueur",
+	"main": "server.js",
+	"scripts": {
+	"start": "node server.js"
+	},
+ 	 "dependencies": {
+	"ws": "^7.4.6"
+	}
+}
