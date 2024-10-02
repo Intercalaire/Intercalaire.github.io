@@ -1,0 +1,23 @@
+/* jeux.css */
+body {
+    font-family: Arial, sans-serif;
+}
+
+header, footer {
+    text-align: center;
+    margin: 20px 0;
+}
+
+#room-form {
+    text-align: center;
+    margin: 20px 0;
+}
+
+#game-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+canvas {
+    border: 1px solid black;
+}
